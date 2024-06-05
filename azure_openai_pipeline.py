@@ -74,6 +74,6 @@ class Pipeline:
             if body["stream"]:
                 return r.iter_lines()
             else:
-                return r.json()
+                return r.json()["choices"][0]["message"]["content"]
         except Exception as e:
             return f"Error: {e}"
