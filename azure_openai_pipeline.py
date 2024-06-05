@@ -76,6 +76,7 @@ class Pipeline:
                 return r.iter_lines()
             else:
                 print("REGULAR JSON")
-                return r.json()["choices"][0]["message"]["content"]
+                data = r.json()
+                return data["choices"][0]["message"]["content"]
         except Exception as e:
             return f"Error: {e}"
