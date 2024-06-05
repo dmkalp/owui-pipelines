@@ -1,3 +1,5 @@
+import json
+
 from typing import List, Union, Generator, Iterator
 from schemas import OpenAIChatMessage
 from pydantic import BaseModel
@@ -67,16 +69,15 @@ class Pipeline:
                 stream=True,
             )
 
-            print("HERE", r.text)
-            print(body)
-
             r.raise_for_status()
             if body["stream"]:
-                print("ITER LINES", list(r.iter_lines()))
-                return r.iter_lines()
+                for line in r.iter_lines():
+                    data = json.loads(line.decode('utf8'))
+                    print("CHUNK", data)
+                    yield data["choices"][0]["message"]["content"]
             else:
-                print("REGULAR JSON")
                 data = r.json()
+                print("JSON", data)
                 return data["choices"][0]["message"]["content"]
         except Exception as e:
             return f"Error: {e}"
