@@ -42,6 +42,7 @@ class Pipeline:
 
         print(messages)
         print(user_message)
+        print("BODY", body)
 
         headers = {
             "api-key": self.valves.AZURE_OPENAI_API_KEY,
@@ -50,14 +51,18 @@ class Pipeline:
 
         url = f"{self.valves.AZURE_OPENAI_ENDPOINT}/openai/deployments/{self.valves.DEPLOYMENT_NAME}/chat/completions?api-version={self.valves.API_VERSION}"
 
+        payload = {
+            "messages": messages,
+            "temperature": body.get("temperature", 0.75)
+        }
+
+        if "max_tokens" in body:
+            payload["max_tokens"] = body["max_tokens"]
+        
         try:
             r = requests.post(
                 url=url,
-                json={
-                    "messages": messages,
-                    "max_tokens": body["max_tokens"],
-                    "temperature": body.get("temperature", 0.75)
-                },
+                json=payload,
                 headers=headers,
                 stream=True,
             )
