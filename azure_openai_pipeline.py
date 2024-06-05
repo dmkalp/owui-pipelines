@@ -72,6 +72,7 @@ class Pipeline:
 
             r.raise_for_status()
             if body["stream"]:
+                print(list(r.iter_lines()))
                 return r.iter_lines()
             else:
                 return r.json()["choices"][0]["message"]["content"]
