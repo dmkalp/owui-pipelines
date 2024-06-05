@@ -78,6 +78,6 @@ class Pipeline:
             else:
                 data = r.json()
                 print("JSON", data)
-                return data["choices"][0]["message"]["content"]
+                return data
         except Exception as e:
             return f"Error: {e}"
