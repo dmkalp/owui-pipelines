@@ -53,12 +53,16 @@ class Pipeline:
         try:
             r = requests.post(
                 url=url,
-                json={**body, "model": self.valves.MODEL},
+                json={
+                    "messages": messages,
+                    "max_tokens": body["max_tokens"],
+                    "temperature": body.get("temperature", 0.75)
+                },
                 headers=headers,
                 stream=True,
             )
 
-            print(r.text)
+            print("HERE", r.text)
             print(body)
 
             r.raise_for_status()
