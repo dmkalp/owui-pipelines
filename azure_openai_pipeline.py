@@ -78,6 +78,11 @@ class Pipeline:
             else:
                 # This is for generating titles, the actual selection
                 # of message and its content will be done on the front-end
-                yield r.json()
+                # UPDATE: or so it should according to here:
+                # https://github.com/open-webui/open-webui/blob/a8d80f936a69c7e4254c2306b9c88aa7c3e09088/src/lib/apis/openai/index.ts#L367
+                # but it doesn't seem to work with generators!
+                # yield r.json()
+                data = r.json()
+                yield data["choices"][0]["message"]["content"]
         except Exception as e:
             yield f"Error: {e}"
