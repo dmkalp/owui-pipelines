@@ -78,6 +78,6 @@ class Pipeline:
             else:
                 # This is for generating titles, it will be turned into JSON
                 # in the respective frontend code
-                return r
+                yield r
         except Exception as e:
-            return f"Error: {e}"
+            yield f"Error: {e}"
