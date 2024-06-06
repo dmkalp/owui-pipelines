@@ -76,8 +76,8 @@ class Pipeline:
                     print("CHUNK", data)
                     yield data["choices"][0]["message"]["content"]
             else:
-                data = r.json()
-                print("JSON", data)
-                return data["choices"][0]["message"]["content"]
+                # This is for generating titles, it will be turned into JSON
+                # in the respective frontend code
+                return r
         except Exception as e:
             return f"Error: {e}"
